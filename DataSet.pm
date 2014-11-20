@@ -40,5 +40,33 @@ has '+type' => (
 	);
 }
 
+{
+package File::Wallace;
+use Moose;
+extends 'File';
 
+has '+type' => ( 
+	default => 'Wallace' 
+	);
+}
+
+{
+package File::DoorCount;
+use Moose;
+extends 'File';
+
+has '+type' => ( 
+	default => 'DoorCount' 
+	);
+}
+
+{
+package File::Dennys;
+use Moose;
+extends 'File';
+
+has '+type' => ( 
+	default => 'Dennys' 
+	);
+}
 1;
