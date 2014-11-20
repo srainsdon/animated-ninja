@@ -1,16 +1,16 @@
 {
-package DataSet;
+package SdxReporting::DataSet;
 use Moose;
 	
-has 'files' => (
+has 'Files' => (
 	is      => 'rw',
-	isa => 'ArrayRef[File]',
+	isa => 'ArrayRef',
 	auto_deref => 1,
 	);
 }
 
 {
-package File;
+package SdxReporting::DataSet;
 use Moose;
 
 has 'name' => (
@@ -31,9 +31,9 @@ has 'path' => (
 }
 
 {
-package File::Flex;
+package SdxReporting::DataSet::Flex;
 use Moose;
-extends 'File';
+extends 'SdxReporting::DataSet';
 
 has '+type' => ( 
 	default => 'Flex' 
