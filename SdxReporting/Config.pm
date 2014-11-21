@@ -19,10 +19,13 @@ has 'Setting' => (
 sub BUILD {
       my $self = shift;
 	  my %Config;
-	  Config::Simple->import_from('Config', \%Config);
+	  my $Value;
+	  Config::Simple->import_from( "Config", \%Config);
 	  foreach my $key (keys %Config) {
-	          print $key, '=>', $Config{$key}, "\n";
-			  set_mapping($key, $Config{$key});
+		  my $keyen = $key;
+			  #$keyen =~ s/\.//gi;
+			  #print $keyen, '=>', $Config{$key}, "\n";
+			  $self->set_mapping($keyen, $Config{$key});
 	      }
 	  
   }
