@@ -6,11 +6,12 @@ use SdxReporting::Config;
 use Config::Simple;
 my $obj = SdxReporting::Config->new;
 #$obj->reFresh();
+$obj->set_mapping('Testing.Test','BobTomTest');
 my @ids = $obj->ids_in_mapping;
 foreach my $Setting (@ids) { 
     print "$Setting <=> " , $obj->get_mapping($Setting) , "\n";
 } 
-
+print Dumper($obj->Setting);
 
 
 #my $File1 = SdxReporting::File::Flex->new( 
