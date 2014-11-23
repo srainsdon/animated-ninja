@@ -1,0 +1,17 @@
+; Config::Simple 4.58
+; Thu Nov 20 21:09:06 2014
+
+[mysql]
+dbpass=WonderfulPassword
+user=TestBob
+host=localhost
+dbname=DataBaseName
+
+[site]
+title=15 Min Reporting
+
+[Unit1]
+ShortName=SubCo
+LongName=Sub Coonnection
+
+

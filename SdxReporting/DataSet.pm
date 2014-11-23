@@ -4,41 +4,27 @@ use Moose;
 	
 has 'Files' => (
 	is      => 'rw',
-	isa => 'ArrayRef',
+	isa => 'ArrayRef[SdxReporting::File]',
 	auto_deref => 1,
 	);
 }
 
 {
-package SdxReporting::DataSet;
-use Moose;
-
-has 'name' => (
-	is       => 'rw',
-	isa      => 'Str',
-	required => 1,
-	);
+	package SdxReporting::DataSet::Record;
+	use Moose;
 	
-has 'type' => (
-	is      => 'rw',
-	isa     => 'Str',
-	default => 'Wallace'
-	);
-has 'path' => (
-	is	=> 'rw',
-	isa	=> 'Str',
-	);
+has 'TimeStamp' => (
+	is => 'rw',
+	isa => 'Str'
+);
+has 'Store' => (
+	is => 'rw',
+	isa => 'Int'
+);
+has 'NumOfTrans' => (
+	is => 'rw',
+	isa => 'Int'
+);
 }
-
-{
-package SdxReporting::DataSet::Flex;
-use Moose;
-extends 'SdxReporting::DataSet';
-
-has '+type' => ( 
-	default => 'Flex' 
-	);
-}
-
 
 1;
