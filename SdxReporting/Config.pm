@@ -16,6 +16,11 @@ has 'Setting' => (
 		set       => 'set_mapping',
 	},
   );
+
+sub DEMOLISH {
+	
+}  
+  
 sub BUILD {
       my $self = shift;
 	  my %Config;
