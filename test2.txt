@@ -1,0 +1,5 @@
+
+( 1 , 2 ) =>Sales by 15 minutes	( 1 , 12 ) =>BI Version: N/A	
+
+
+August 30 2013
