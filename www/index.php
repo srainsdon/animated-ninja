@@ -17,8 +17,9 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        echo $row["TransactionTime"] . " " . $row["TransactionNumber"]. " " . $row["StoreID"]. "<br>";
-		$Store[$row["TransactionTime"]] = $row["TransactionNumber"];
+		$time = substr($row["TransactionTime"], 11, 5);
+        echo $time . " " . $row["TransactionNumber"] . " " . $row["StoreID"]. "<br>";
+		$Store[$time] = $row["TransactionNumber"];
     }
 } else {
     echo "0 results";
