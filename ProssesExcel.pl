@@ -9,12 +9,16 @@ use DateTime::Format::Strptime qw( );
 my $sourcename = shift @ARGV or die "invocation: $0 <source file>\n";
 my $source_excel = new Spreadsheet::ParseExcel;
 my $source_book = $source_excel->Parse($sourcename) or die "Could not open source Excel file $sourcename: $!";
+
+print "File: $sourcename Being Prossesed.\n";
+
 my $tmpFn = substr($sourcename, 11);
 my ($StoreName, $tmpExt) = split(/\./, $tmpFn);
 my $storage_book;
 my $ReportDate;
 my $SaveNum = 0;
 my $TimeStamp;
+my $Count = 0;
 
 my $StoreIds = {
 	'Jamba'		=> 1,
@@ -25,12 +29,29 @@ my $StoreIds = {
 	'Bobs-Flex'	=> 6,
 	'Wallace'	=> 7,
 	'Bobs-Door'	=> 8,
-	'Dennys'	=> 9
+	'Dennys'	=> 9,
+	'Grill'		=> 10,
+	'MeinBowl'	=> 11,
+	'EBB1'		=> 12,
+	'EBB2'		=> 13,
+	'Bogeys'	=> 14,
+	'Joes'		=> 15,
 };
 
 my $StoreId = $StoreIds->{$StoreName};
 
+use DBI;
+my $dbh = DBI->connect('DBI:mysql:Sodexo_15Min;host=srv1.247ly.com', 'srainsdon', 'N0cand0a',
+	            { RaiseError => 1 }
+	           );
+my $sth = $dbh->prepare(q{
+	INSERT INTO Sodexo_15Min.Transaction (TransactionTime, TransactionNumber, StoreID) VALUES (?, ?, ?)
+	}) or die $dbh->errstr;
+
 #print "|$StoreId|-|$tmpFn|-|$StoreName|-|$tmpExt|\n";
+return unless ($tmpExt eq "xls");
+
+print "Store: $StoreName\n";
 
 #print "TransactionTime, TransactionNumber, StoreID\n";
 
@@ -61,7 +82,10 @@ foreach my $source_sheet_number (0 .. $source_book->{SheetCount}-1)
 			}
 		}
 		if ($col_index == 9 && $SaveNum == 1) {
-    		print "$ReportDate $TimeStamp:15, " . $source_cell->Value . ", $StoreId\n";
+    		#print "$ReportDate $TimeStamp:15, " . $source_cell->Value . ", $StoreId\n";
+			 $sth->execute("$ReportDate $TimeStamp:00", $source_cell->Value, $StoreId) or die $dbh->errstr;
+			 print ".";
+			 $Count++;
 			$SaveNum = 0;
 		}
     }
@@ -75,7 +99,7 @@ foreach my $source_sheet_number (0 .. $source_book->{SheetCount}-1)
 	  my ($tmpMonth, $tmpDayNum, $tmpYear) = split(" ", $tmpDate);
 	  $tmpMonth = $mon2num{ lc substr($tmpMonth, 0, 3) };
       $ReportDate = $tmpYear . "-" . $tmpMonth . "-" . $tmpDayNum;
-	  #print "$ReportDate\n";
+	  print "Report Date: $ReportDate\n";
      }
     #print "( $row_index , $col_index ) =>", $source_cell->Value, "\t";
     #print  $source_cell->Value . ",";
@@ -84,4 +108,5 @@ foreach my $source_sheet_number (0 .. $source_book->{SheetCount}-1)
   #print "\n";
  } 
 }
-#print "done!\n";
+print "done! $Count Number of Rows added\n";
+$dbh->disconnect();
