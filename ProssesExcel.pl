@@ -83,7 +83,7 @@ foreach my $source_sheet_number (0 .. $source_book->{SheetCount}-1)
 		}
 		if ($col_index == 9 && $SaveNum == 1) {
     		#print "$ReportDate $TimeStamp:15, " . $source_cell->Value . ", $StoreId\n";
-			 $sth->execute("$ReportDate $TimeStamp:00", $source_cell->Value, $StoreId) or die $dbh->errstr;
+			# $sth->execute("$ReportDate $TimeStamp:00", $source_cell->Value, $StoreId) or die $dbh->errstr;
 			 print ".";
 			 $Count++;
 			$SaveNum = 0;
